@@ -1,0 +1,6 @@
+interface:
+  display_name: "Improve Folder Architecture"
+  short_description: "Explore folder structure and propose DX improvements"
+  default_prompt: "Use $improve-folder-architecture to explore this project’s folder architecture and propose DX-focused candidates."
+policy:
+  allow_implicit_invocation: false
