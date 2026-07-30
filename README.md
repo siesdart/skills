@@ -13,6 +13,18 @@ This repository contains personal agent skills for recurring development tasks. 
 
 See each skill's `SKILL.md` for detailed behavior and limitations.
 
+### Prerequisites for `improve-folder-architecture`
+
+`improve-folder-architecture` is adapted from Matt Pocock's [`improve-codebase-architecture`](https://github.com/mattpocock/skills/tree/main/skills/engineering/improve-codebase-architecture) skill. To use its complete workflow, install the full [`mattpocock/skills`](https://github.com/mattpocock/skills) collection. The skill references supporting capabilities from that collection, and installing the full upstream set keeps those dependencies aligned as the upstream project evolves.
+
+Install the upstream collection with the `skills` CLI, or use the equivalent installation mechanism provided by your AI agent runtime:
+
+```bash
+npx skills@latest add mattpocock/skills
+```
+
+The adapted skill can still inspect and propose folder-architecture candidates without the upstream collection, but the post-selection workflow and supporting design guidance will not be available.
+
 ## Installation
 
 Install the skills with the `skills` CLI:
@@ -37,4 +49,4 @@ See [`CONTRIBUTING.md`](CONTRIBUTING.md) for proposal and change procedures.
 
 ## License
 
-MIT License. See [`LICENSE`](LICENSE) for details.
+This repository is distributed under the MIT License. See [`LICENSE`](LICENSE) for the license covering this repository and [`THIRD-PARTY-NOTICES.md`](THIRD-PARTY-NOTICES.md) for attribution and license information for adapted upstream material.
