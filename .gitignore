@@ -1,0 +1,18 @@
+# macOS / editor files
+.DS_Store
+.AppleDouble
+.LSOverride
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Temporary reports and local agent output
+folder-architecture-review-*.html
+*.tmp
+*.log
+
+# Local environment files
+.env
+.env.*
+!.env.example
