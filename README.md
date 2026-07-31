@@ -6,24 +6,35 @@ This repository contains personal agent skills for recurring development tasks. 
 
 ## Skills
 
-| Skill                                                                        | Purpose                                                                                              | Recommended activation                                     |
-| ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| [`improve-folder-architecture`](skills/improve-folder-architecture/SKILL.md) | Inspects a repository's folder structure and proposes evidence-based improvements in an HTML report. | Explicitly select `improve-folder-architecture`            |
-| [`dart-melos-upgrade`](skills/dart-melos-upgrade/SKILL.md)                   | Audits and upgrades dependencies in a Dart/Melos monorepo to the latest resolvable versions.         | Select explicitly or activate for dependency-upgrade tasks |
+| Skill                                                                                                    | Purpose                                                                                              | Recommended activation                                     |
+| -------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| [`dart-melos-upgrade`](skills/dart-melos-upgrade/SKILL.md)                                               | Audits and upgrades dependencies in a Dart/Melos monorepo to the latest resolvable versions.         | Select explicitly or activate for dependency-upgrade tasks |
+| [`flutter-apply-architecture-best-practices`](skills/flutter-apply-architecture-best-practices/SKILL.md) | Designs Flutter/Dart monorepos with Melos, Pub Workspaces, and get_it.                               | Select for monorepo architecture tasks                     |
+| [`improve-folder-architecture`](skills/improve-folder-architecture/SKILL.md)                             | Inspects a repository's folder structure and proposes evidence-based improvements in an HTML report. | Explicitly select `improve-folder-architecture`            |
 
-See each skill's `SKILL.md` for detailed behavior and limitations.
+## Before using a skill
 
-### Prerequisites for `improve-folder-architecture`
+### `flutter-apply-architecture-best-practices`
 
-`improve-folder-architecture` is adapted from Matt Pocock's [`improve-codebase-architecture`](https://github.com/mattpocock/skills/tree/main/skills/engineering/improve-codebase-architecture) skill. To use its complete workflow, install the full [`mattpocock/skills`](https://github.com/mattpocock/skills) collection. The skill references supporting capabilities from that collection, and installing the full upstream set keeps those dependencies aligned as the upstream project evolves.
+`flutter-apply-architecture-best-practices` is a monorepo-focused variant of the same-named skill from Flutter's official [`flutter/skills`](https://github.com/flutter/skills) repository.
 
-Install the upstream collection with the `skills` CLI, or use the equivalent installation mechanism provided by your AI agent runtime:
+- The rest of the official `flutter/skills` collection can be installed and used alongside this skill.
+- The official and local versions use the same directory name, so they cannot be installed together in one `skills` directory.
+- When installing or updating the official collection, omit its `flutter-apply-architecture-best-practices` skill and install this repository's version in its place.
+- This replacement applies only to the same-named skill; this version adds the repository's Melos, Dart Pub Workspaces, get_it, package-boundary, and composition-root policies.
+
+### `improve-folder-architecture`
+
+`improve-folder-architecture` is adapted from Matt Pocock's [`improve-codebase-architecture`](https://github.com/mattpocock/skills/tree/main/skills/engineering/improve-codebase-architecture) skill.
+
+- For the complete workflow, install the full [`mattpocock/skills`](https://github.com/mattpocock/skills) collection so its supporting capabilities remain available and aligned.
+- Install the upstream collection with the `skills` CLI, or use the equivalent mechanism provided by your agent runtime:
 
 ```bash
 npx skills@latest add mattpocock/skills
 ```
 
-The adapted skill can still inspect and propose folder-architecture candidates without the upstream collection, but the post-selection workflow and supporting design guidance will not be available.
+The adapted skill can still inspect and propose folder-architecture candidates without the upstream collection, but its post-selection workflow and supporting design guidance will not be available.
 
 ## Installation
 
