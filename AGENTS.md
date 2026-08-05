@@ -1,3 +1,3 @@
 # Personal Agent Skills
 
-ALWAYS USE `/writing-great-skills` skill when writing or modifying skills.
+ALWAYS USE `/writing-for-agents` skill when writing or modifying skills.
