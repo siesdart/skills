@@ -5,9 +5,11 @@ description: Apply boundary-first architecture to Flutter/Dart monorepos using M
 
 # Architecting Flutter Monorepos
 
-Use a **boundary-first** process: preserve repository facts, make ownership and
-dependencies explicit, keep composition in the app, and verify the workspace
-before declaring the change complete.
+Use a **boundary-first, depth-aware** process: preserve repository facts, make
+ownership and dependencies explicit, keep composition in the app, and verify
+the workspace before declaring the change complete. A boundary is valuable
+when it hides meaningful complexity behind a small interface; a folder or file
+is not automatically a module.
 
 Read [REFERENCE.md](REFERENCE.md) for the canonical topology, dependency and
 abstraction rules, get_it lifetimes and scopes, Melos/Pub Workspace details,
@@ -30,19 +32,39 @@ Separate discovered constraints from recommendations. Completion criterion:
 every workspace member, relevant dependency edge, DI entrypoint, and validation
 command is accounted for.
 
-### 2. Choose the smallest useful boundary
+### 2. Choose the smallest useful, deepest boundary
 
 Apply the mixed topology in [REFERENCE.md](REFERENCE.md). Choose boundaries by
 ownership, public API, lifecycle, independent consumers, release needs, and
 dependency direction—not by mirroring `presentation`, `application`, `domain`,
-and `data` as separate packages.
+and `data` as separate packages or files.
 
 Keep product composition in `apps/*`; keep capability packages, shared core
 contracts/UI, and reusable platform integrations in their appropriate package
 groups. Name packages for their capability, not their directory category.
 
-Completion criterion: every new package has an explicit boundary reason, and no
-package exists solely to reproduce a layer or make the tree symmetrical.
+Inside each package, first identify the few concepts that own a meaningful
+change, lifecycle, or dependency seam. Co-locate their implementation behind a
+small public surface when callers should not know the internal steps. Treat
+Clean Architecture layers as dependency and ownership roles, not as a demand
+for one folder or file per role. Split a module only when the split increases
+locality, hides substantial complexity, enables an independently meaningful
+change, or protects a real seam. Apply the deletion test: if deleting the
+proposed file or folder would merely move complexity into its neighbours, keep
+it co-located.
+
+Prefer a small number of **deep modules** over many **shallow modules**. An
+interface that is nearly as complicated as its implementation is a warning
+that the boundary is shallow. An extracted helper or pure function earns its
+own module only when its interface is a useful test surface or a real seam—not
+merely because it makes a line easier to unit-test. One adapter is a
+hypothetical seam; two genuinely different adapters are evidence of a real
+seam, subject to locality and ownership.
+
+Completion criterion: every new package, folder, and file has an explicit
+boundary or locality reason; each retained boundary hides meaningful
+complexity; and no package or internal module exists solely to reproduce a
+layer, isolate a trivial class, or make the tree symmetrical.
 
 ### 3. Model dependencies and public APIs
 
@@ -79,7 +101,9 @@ or replacement.
 For each new or changed feature:
 
 - confirm the owning package and dependency graph
-- define immutable contracts and the public API
+- map the feature into a few cohesive deep modules before creating folders or
+  files; keep the call path for one concept local
+- define immutable contracts and the public API at the smallest meaningful seam
 - add stateless services only when an external source needs adaptation
 - add repositories for transformation, caching, retry, and error policy
 - add a use case only when Step 3 requires one
@@ -88,9 +112,12 @@ For each new or changed feature:
 - add an explicit registration helper and call it from the app composition root
 - add package unit tests and app integration coverage for user-visible flows
 
-Use the feature implementation defaults in the reference. Completion
+Use the feature implementation defaults in the reference. Before finalizing,
+run the deletion test on every newly introduced file and folder, and check that
+the interface remains smaller than the complexity it conceals. Completion
 criterion: each checklist item is implemented or marked unnecessary with a
-reason, and the feature is reachable through its owning package's public API.
+reason, the feature is reachable through its owning package's public API, and
+the resulting package has no role-shaped shallow-module sprawl.
 
 ### 7. Verify the workspace and release posture
 
@@ -115,3 +142,10 @@ defaults. Preserve repository policy when it exists. When a materially missing
 choice affects publishing, state management, ownership, or lifecycle, surface
 the ambiguity with a recommended option before editing; record the decision in
 the resulting structure or documentation.
+
+When a proposed split is justified only by “Clean Architecture,” ask which
+complexity the new boundary hides, who owns its interface, and which change can
+now stay local. If those answers are weak, deepen the existing module instead:
+co-locate the related roles, narrow the public surface, and test through that
+surface. Review the final tree for locality and leverage, not for a visually
+symmetrical set of layer directories.

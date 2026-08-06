@@ -33,8 +33,46 @@ The repository uses the mixed release model: feature packages are internal by de
 This topology is a practical monorepo packaging strategy, not a fixed Clean
 Architecture directory standard. Clean Architecture is enforced by ownership,
 public API boundaries, and dependency direction; `presentation`,
-`application`, `domain`, and `data` normally remain folders inside the feature
-package unless an independent package boundary is justified.
+`application`, `domain`, and `data` normally remain roles or co-located folders
+inside the feature package unless an independent package boundary is justified.
+
+## Module depth and cohesion
+
+Use the smallest number of deep modules that give the codebase useful seams.
+A deep module has a small interface and substantial implementation complexity;
+callers can use its capability without knowing its internal sequence, state, or
+policy. A shallow module exposes nearly as much structure as it hides and adds
+navigation cost without buying locality or leverage.
+
+Treat a Dart file or directory as a module only when it owns a coherent
+concept, change, lifecycle, or dependency seam. A class-per-file layout is not
+an architecture rule. Co-locate presentation, application, domain, and data
+roles when they collaborate on one cohesive capability and callers do not need
+to distinguish them. Separate them when the separation protects a real
+dependency direction, independent change, public API, lifecycle, or consumer.
+
+Use these tests before introducing an internal folder or file:
+
+- **Deletion test:** would removing it concentrate meaningful complexity, or
+  only move the same complexity into neighbouring files?
+- **Interface test:** is the interface materially smaller than the behaviour it
+  conceals and a useful test surface for callers?
+- **Locality test:** can a change to one concept be understood and tested by
+  staying mostly within the module?
+- **Seam test:** is there a real ownership or dependency seam? One adapter is a
+  hypothetical seam; two genuinely different adapters are evidence of a real
+  seam.
+
+Prefer deepening an existing module—co-locating related roles, narrowing its
+public surface, and preserving constructor injection—when these tests do not
+support a split. Extract a pure function or helper for a meaningful interface,
+independent change, or stable test surface; extraction performed only to make
+one line independently testable usually creates a shallow module and reduces
+locality.
+
+The target is not the fewest files. It is a small, legible set of deep modules:
+each boundary should hide complexity, keep related decisions local, and give
+tests leverage through a stable public surface.
 
 ## Dependency and interaction model
 
@@ -77,12 +115,12 @@ data repository implementation → data service → platform API
 Place an abstraction with its innermost consumer—the layer that needs to depend
 on the capability rather than its implementation.
 
-| Need | Placement |
-| --- | --- |
-| A business capability used by application code | Contract in `domain`; implementation in `data` |
-| A collaborator required only by a use case | Contract in `application`; implementation outside it |
-| A platform/API adapter used only by data code | Contract and implementation in `data/services` |
-| A reusable external integration with independent consumers or lifecycle | `packages/platform/*` |
+| Need                                                                    | Placement                                            |
+| ----------------------------------------------------------------------- | ---------------------------------------------------- |
+| A business capability used by application code                          | Contract in `domain`; implementation in `data`       |
+| A collaborator required only by a use case                              | Contract in `application`; implementation outside it |
+| A platform/API adapter used only by data code                           | Contract and implementation in `data/services`       |
+| A reusable external integration with independent consumers or lifecycle | `packages/platform/*`                                |
 
 Use an interface only when it preserves a real boundary: an inner layer needs
 the contract, multiple implementations genuinely coexist, or a deterministic
@@ -99,9 +137,12 @@ Use `ChangeNotifier`/`Listenable` in examples as the SDK baseline without
 prescribing a state-management package. Keep get_it responsible for
 construction and lifetime; keep reactive UI state in the view model and view.
 
-For a feature, define immutable contracts and public APIs, add stateless
+For a feature, identify its cohesive deep modules before arranging files.
+Define immutable contracts and public APIs at meaningful seams, add stateless
 services only when an external source needs adaptation, and test package
-boundaries separately from user-visible app flows.
+boundaries separately from user-visible app flows. Keep trivial role wrappers
+co-located rather than creating one shallow module per Clean Architecture
+label.
 
 ## get_it policy
 
