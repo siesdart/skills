@@ -8,12 +8,12 @@ This repository contains personal agent skills for recurring development tasks. 
 
 ## Skills
 
-| Skill                                                                                                    | Purpose                                                                                                                | Recommended activation                                          |
-| -------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| [`dart-melos-upgrade`](skills/dart-melos-upgrade/SKILL.md)                                               | Audits and upgrades dependencies in a Dart/Melos monorepo to the latest resolvable versions.                           | Select explicitly or activate for dependency-upgrade tasks      |
-| [`flutter-apply-architecture-best-practices`](skills/flutter-apply-architecture-best-practices/SKILL.md) | Designs Flutter/Dart monorepos with Melos, Pub Workspaces, and get_it.                                                 | Select for monorepo architecture tasks                          |
-| [`improve-folder-architecture`](skills/improve-folder-architecture/SKILL.md)                             | Inspects a repository's folder structure and proposes evidence-based improvements in an HTML report.                   | Explicitly select `improve-folder-architecture`                 |
-| [`ui-tree-architecture-review`](skills/ui-tree-architecture-review/SKILL.md)                             | Reviews frontend component/widget trees, boundaries, contracts, ownership, and DX with a fixed Markdown report format. | Select automatically for UI tree and component-boundary reviews |
+| Skill                                                                                                    | Purpose                                                                                                                | Recommended activation                                     |
+| -------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| [`dart-melos-upgrade`](skills/dart-melos-upgrade/SKILL.md)                                               | Audits and upgrades dependencies in a Dart/Melos monorepo to the latest resolvable versions.                           | Select explicitly or activate for dependency-upgrade tasks |
+| [`flutter-apply-architecture-best-practices`](skills/flutter-apply-architecture-best-practices/SKILL.md) | Designs Flutter/Dart monorepos with Melos, Pub Workspaces, and get_it.                                                 | Select for monorepo architecture tasks                     |
+| [`improve-folder-architecture`](skills/improve-folder-architecture/SKILL.md)                             | Inspects a repository's folder structure and proposes evidence-based improvements in an HTML report.                   | Explicitly select `improve-folder-architecture`            |
+| [`ui-tree-architecture-review`](skills/ui-tree-architecture-review/SKILL.md)                             | Reviews frontend component/widget trees, boundaries, contracts, ownership, and DX with a fixed Markdown report format. | Explicitly select `ui-tree-architecture-review`            |
 
 ## Before using a skill
 
