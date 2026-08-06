@@ -32,27 +32,9 @@ The repository uses the mixed release model: feature packages are internal by de
 
 This topology is a practical monorepo packaging strategy, not a fixed Clean
 Architecture directory standard. Clean Architecture is enforced by ownership,
-public interfaces, seams, and dependency direction—not by file count or layer
-symmetry. `presentation`, `application`, `domain`, and `data` normally remain
-cohesive internal roles or folders inside the feature package unless an
-independent package seam is justified.
-
-Prefer deep modules: a small interface should hide substantial policy,
-transformation, lifecycle, or error handling. A shallow module exposes nearly
-as much knowledge as its implementation and usually adds indirection without
-leverage. Before splitting a role into a module, apply the deletion test: if
-deleting it only relocates the same complexity into callers, keep the code
-together. Internal seams are useful for implementation structure and tests;
-they do not have to become public interfaces or packages.
-
-Create a separate module or package when it has a concrete seam and a reason
-that survives the deletion test, such as independent ownership or release, a
-genuinely reusable capability, a meaningful compile-time dependency constraint,
-a distinct lifecycle, or multiple concrete adapters that actually vary. One
-adapter is a hypothetical seam; two adapters are evidence of a real one. Do
-not create interfaces for every concrete class, one-method pass-through use
-case, repository wrapper, mapper, or view-model command solely to imitate a
-layered diagram.
+public API boundaries, and dependency direction; `presentation`,
+`application`, `domain`, and `data` normally remain folders inside the feature
+package unless an independent package boundary is justified.
 
 ## Dependency and interaction model
 
@@ -92,22 +74,20 @@ data repository implementation → data service → platform API
 
 ### Abstraction placement
 
-Place an abstraction with its innermost consumer—the role or module that needs
-to depend on the capability rather than its implementation. The abstraction's
-location should make the seam useful to callers and tests, not merely reproduce
-the names of Clean Architecture layers.
+Place an abstraction with its innermost consumer—the layer that needs to depend
+on the capability rather than its implementation.
 
 | Need | Placement |
 | --- | --- |
 | A business capability used by application code | Contract in `domain`; implementation in `data` |
-| A collaborator required only by a deep application module | Contract beside that module; implementation outside its seam |
+| A collaborator required only by a use case | Contract in `application`; implementation outside it |
 | A platform/API adapter used only by data code | Contract and implementation in `data/services` |
 | A reusable external integration with independent consumers or lifecycle | `packages/platform/*` |
 
-Use an interface only when it preserves a real seam: an inner module needs the
-contract, multiple adapters genuinely coexist, or a deterministic test
-replacement is useful. Do not create interfaces merely to mirror concrete
-classes. Keep feature-specific adapters in `data`; extract them to
+Use an interface only when it preserves a real boundary: an inner layer needs
+the contract, multiple implementations genuinely coexist, or a deterministic
+test replacement is useful. Do not create interfaces merely to mirror concrete
+classes. Keep feature-specific services in `data`; extract them to
 `packages/platform/*` only for a genuine reuse, ownership, lifecycle, stable
 API, or dependency boundary.
 
@@ -119,14 +99,9 @@ Use `ChangeNotifier`/`Listenable` in examples as the SDK baseline without
 prescribing a state-management package. Keep get_it responsible for
 construction and lifetime; keep reactive UI state in the view model and view.
 
-For a feature, start with the smallest cohesive deep module and expose only the
-interface its callers need. Define immutable contracts at real seams, add
-stateless adapters only when an external source needs adaptation, and keep
-layer roles internal when splitting them would reduce locality. Test through
-the module interface; add focused internal tests when an internal seam makes
-complex behaviour easier to verify, but do not promote that seam to a public
-package boundary without an independent reason. Test package interfaces
-separately from user-visible app flows.
+For a feature, define immutable contracts and public APIs, add stateless
+services only when an external source needs adaptation, and test package
+boundaries separately from user-visible app flows.
 
 ## get_it policy
 
