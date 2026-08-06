@@ -1,0 +1,6 @@
+interface:
+  display_name: "UI Tree Architecture Review"
+  short_description: "Review the architecture of the UI tree and provide feedback."
+  default_prompt: "Use $ui-tree-architecture-review to review the architecture of the UI tree and get feedback."
+policy:
+  allow_implicit_invocation: false
