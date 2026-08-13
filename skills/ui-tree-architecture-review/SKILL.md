@@ -70,7 +70,9 @@ Before finishing, run this quality pass:
 - confidence is explicit and low-confidence items are not presented as mandates;
 - the report has no framework-specific rule presented as universal advice.
 
-Completion criterion: the report validates against every required section in `REPORT-TEMPLATE.md`, contains no unsupported architectural claim, and ends with the required handoff section.
+After saving the report, address the user directly in the assistant response. Convert each material item in `Unresolved questions` into a numbered, concise question and ask the user to answer it. Then state the recommended next slice as a concrete proposal and ask whether the user wants to proceed with it, investigate one of the questions first, or review another tree. If there are no unresolved questions, say so explicitly and still ask for confirmation of the recommended next slice. Do not merely point the user to the report or leave the questions only inside the Markdown file.
+
+Completion criterion: the report validates against every required section in `REPORT-TEMPLATE.md`, contains no unsupported architectural claim, ends with the required handoff section, and the assistant's final response explicitly asks the unresolved questions and offers the recommended next action.
 
 ## Guardrails
 

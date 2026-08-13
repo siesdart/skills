@@ -77,4 +77,4 @@ Use one subsection per finding. Keep observed facts, diagnosis, recommendation, 
 
 ## Handoff
 
-`<Invite the user to choose whether to implement the recommended slice, investigate an unresolved question, or review another tree.>`
+`<Summarize the decision the reader needs to make next: proceed with the recommended slice, investigate an unresolved question, or review another tree.>`
